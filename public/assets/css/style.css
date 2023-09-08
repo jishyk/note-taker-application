@@ -67,18 +67,3 @@ body {
     cursor: pointer;
   }
   
-  .list-container .list-group-item {
-    border-left: none;
-    border-right: none;
-    padding: 20px;
-    cursor: pointer;
-    display: flex; /* Display items in a row layout */
-    justify-content: space-between; /* Space between title and delete icon */
-    align-items: center; /* Center items vertically */
-  }
-  
-  /* Additional styling for the "Save Note" button */
-  .save-button {
-    margin-top: 20px; /* Add some space between the text area and button */
-  }
-  
