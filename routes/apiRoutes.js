@@ -1,45 +1,32 @@
+const fs = require('fs');
+const path = require('path');
 const router = require('express').Router();
 
-const fs = require('fs');
+function readNotes() {
+  const notesData = fs.readFileSync(path.join(__dirname, '../db/db.json'), 'utf8');
+  return JSON.parse(notesData);
+}
+function writeNotes(notes) {
+  fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(notes), 'utf8');
+}
+router.get('/notes', (req, res) => {
+  const notes = readNotes();
+  res.json(notes);
+});
+router.post('/notes', (req, res) => {
+  const newNote = req.body;
+  const notes = readNotes();
+  newNote.id = Date.now().toString(); 
+  notes.push(newNote);
+  writeNotes(notes);
+  res.json(newNote);
+});
+router.delete('/notes/:id', (req, res) => {
+  const noteId = req.params.id;
+  const notes = readNotes();
+  const updatedNotes = notes.filter((note) => note.id !== noteId);
+  writeNotes(updatedNotes);
+  res.json({ message: 'Note deleted successfully' });
+});
 
-const uniqid = require('uniqid');
-
-
-    router.get('/api/notes', (req, res) => {
-      let notes = JSON.parse(fs.readFileSync('./db/db.json'));
-        res.json(notes);
-    });
-
-
-
-    router.post('/api/notes', (req, res) => {
-        const { title, text } = req.body;
-        console.log(uniqid());
-        if (req.body) {
-            let oldNotes = JSON.parse(fs.readFileSync('./db/db.json'));
-            const newNote = {
-                title,
-                text,
-                id: uniqid()
-                
-            };
-            console.log(oldNotes);
-            oldNotes.push(newNote)
-          let note = fs.writeFileSync('./db.json', JSON.stringify(oldNotes));
-            res.json({ message: 'added new note.'})
-            
-        }
-        console.log(req.body);
-    });
-
-    router.delete('/api/notes/:id', (req, res) => {
-        const routerID = req.params.id;
-        let oldNotes = JSON.parse(fs.readFileSync('./db/db.json'));
-        const result = oldNotes.filter((note) => note.id !== routerID);
-        note = fs.writeFileSync('./db/db.json', JSON.stringify(result));
-        res.json('note has been deleted.')
-    })
-
-    
-
-    module.exports = router;
+module.exports = router;
