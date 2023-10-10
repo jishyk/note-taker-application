@@ -78,25 +78,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const handleNoteSave = () => {
     const newNote = {
+      // id: uuidv4(), // Use uuidv4() for generating unique IDs
       title: noteTitle.value,
       text: noteText.value,
     };
-
+  
     saveNote(newNote);
   };
-
+  
+  
   const handleNoteDelete = (id) => {
     deleteNote(id);
   };
 
   const handleNoteView = (id) => {
     fetch(`/api/notes/${id}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch note with ID ${id}`);
+        }
+        return response.json();
+      })
       .then((note) => {
-        activeNote = note;
-        renderActiveNote();
+        activeNote = note; // Set activeNote to the selected note
+        renderActiveNote(); // Display the selected note for editing
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
+
+  
+  
 
   const renderActiveNote = () => {
     if (activeNote.id) {
@@ -125,38 +138,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const deleteNote = (id) => {
+  function deleteNote(id) {
     fetch(`/api/notes/${id}`, {
-      method: 'DELETE',
-    }).then(() => {
-      getAndRenderNotes();
-      if (activeNote.id === id) {
-        activeNote = {};
-        renderActiveNote();
-      }
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+        getAndRenderNotes();  // Ensure the note list updates after a deletion
+    })
+    .catch((error) => {
+        console.error('Error:', error);
     });
-  };
+}
 
-  // Handle navigation to notes page
-  document.addEventListener('DOMContentLoaded', () => {
+
+
+
+
+ 
+  document.addEventListener, () => {
     const btnPrimary = document.querySelector('.btn-primary');
     if (btnPrimary) {
       btnPrimary.addEventListener('click', (event) => {
-        // Your click event handling code here
+        
       });
     }
-  });
+  
+    // Handle navigation back to home page
+    document.querySelector('.navbar-brand').addEventListener('click', (event) => {
+      event.preventDefault();
+      window.location.href = '/';
+    });
+  };
+  
   
   document.querySelector('.btn-primary').addEventListener('click', (event) => {
     event.preventDefault();
     window.location.href = '/notes';
   });
-
-  // Handle navigation back to home page
-  document.querySelector('.navbar-brand').addEventListener('click', (event) => {
-    event.preventDefault();
-    window.location.href = '/';
-  });
+  
 
   // Initial render of notes
   getAndRenderNotes();
