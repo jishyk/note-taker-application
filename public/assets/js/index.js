@@ -100,17 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.json();
       })
       .then((note) => {
-        activeNote = note; // Set activeNote to the selected note
-        renderActiveNote(); // Display the selected note for editing
+        activeNote = note;  
+        renderActiveNote();
       })
       .catch((error) => {
         console.error(error);
       });
   };
-
-  
-  
-
   const renderActiveNote = () => {
     if (activeNote.id) {
       noteTitle.setAttribute('readonly', true);
@@ -150,18 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(data => {
         console.log('Success:', data);
-        getAndRenderNotes();  // Ensure the note list updates after a deletion
+        getAndRenderNotes(); 
     })
     .catch((error) => {
         console.error('Error:', error);
     });
 }
 
-
-
-
-
- 
   document.addEventListener, () => {
     const btnPrimary = document.querySelector('.btn-primary');
     if (btnPrimary) {
@@ -169,22 +160,17 @@ document.addEventListener('DOMContentLoaded', () => {
         
       });
     }
-  
-    // Handle navigation back to home page
+
     document.querySelector('.navbar-brand').addEventListener('click', (event) => {
       event.preventDefault();
       window.location.href = '/';
     });
   };
   
-  
-  document.querySelector('.btn-primary').addEventListener('click', (event) => {
+    document.querySelector('.btn-primary').addEventListener('click', (event) => {
     event.preventDefault();
     window.location.href = '/notes';
   });
-  
-
-  // Initial render of notes
   getAndRenderNotes();
 
   if (window.location.pathname === '/notes') {

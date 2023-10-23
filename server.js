@@ -10,22 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.put('/api/notes/:id', (req, res) => {
-  const { id } = req.params;
-  const updatedNote = req.body;
-  const notes = readNotesFromFile();
 
-  const noteIndex = notes.findIndex((note) => note.id === id);
-
-  if (noteIndex === -1) {
-    return res.status(404).send({ error: 'Note not found' });
-  }
-
-  notes[noteIndex] = { ...notes[noteIndex], ...updatedNote };
-  saveNotesToFile(notes);
-
-  res.json(notes[noteIndex]);
-});
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));

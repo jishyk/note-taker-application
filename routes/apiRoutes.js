@@ -1,4 +1,4 @@
-const fs = require('fs').promises; // Use promise version
+const fs = require('fs').promises;
 const path = require('path');
 const router = require('express').Router();
 const { v4: uuidv4 } = require('uuid');

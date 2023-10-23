@@ -2,7 +2,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa; /* Add a background color for better visibility */
+    background-color: #f8f9fa;
   }
   
   .icons i {
@@ -59,7 +59,7 @@ body {
   .list-item-title {
     display: inline-block;
     width: 75%;
-    font-size: 1.5rem; /* Adjust font size for better readability */
+    font-size: 1.5rem; 
   }
   
   .list-container i {

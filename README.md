@@ -33,7 +33,6 @@ To run the Note Taker App locally, follow these steps:
 
    ```bash
    npm start
-
 # Usage
 
 Click on the "Get Started" button to go to the notes page.
@@ -68,7 +67,7 @@ Bootstrap
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-GitHub: Jishyk
+GitHub: https://github.com/Jishyk
 
 
 Email: jishyk@gmail.com
